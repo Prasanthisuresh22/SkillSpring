@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#5b4bdb">
+    <meta name="description" content="{% block meta_description %}SkillSpring helps students learn skills, build projects, and track their growth.{% endblock %}">
+    <title>{% block title %}SkillSpring{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="{{ url_for('main.index') }}" aria-label="SkillSpring home">
+                <span class="brand-mark" aria-hidden="true"><i data-lucide="sprout"></i></span>
+                <span>Skill<span class="brand-accent">Spring</span></span>
+            </a>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+                <span class="sr-only">Toggle navigation</span>
+                <i data-lucide="menu" aria-hidden="true"></i>
+            </button>
+            <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
+                <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
+                <a class="nav-link" href="{{ url_for('main.skills') }}">Skills</a>
+                <a class="nav-link" href="{{ url_for('main.roadmaps') }}">Roadmaps</a>
+                <a class="nav-link" href="{{ url_for('main.projects') }}">Projects</a>
+                <a class="nav-link" href="{{ url_for('main.resources') }}">Resources</a>
+                <a class="nav-link" href="{{ url_for('main.study_materials') }}">Study Materials</a>
+                <a class="nav-link nav-link-secondary" href="{{ url_for('main.challenges') }}">Practice</a>
+                <div class="nav-actions">
+                    {% if current_user.is_authenticated %}
+                        <a class="button button-ghost button-small" href="{{ url_for('main.dashboard') }}">Dashboard</a>
+                        <a class="button button-ghost button-small" href="{{ url_for('main.profile') }}">Profile</a>
+                        <a class="button button-ghost button-small" href="{{ url_for('main.progress') }}">Progress</a>
+                        <form class="nav-logout-form" method="post" action="{{ url_for('auth.logout') }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="button button-primary button-small" type="submit">Log out</button>
+                        </form>
+                    {% else %}
+                        <a class="button button-ghost button-small" href="{{ url_for('auth.login') }}">Log in</a>
+                        <a class="button button-primary button-small" href="{{ url_for('auth.register') }}">Sign up</a>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-stack container" aria-label="Notifications">
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}" role="status">
+                        <span>{{ message }}</span>
+                        <button class="flash-close" type="button" aria-label="Dismiss notification">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main id="main-content">{% block content %}{% endblock %}</main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a class="brand brand-light" href="{{ url_for('main.index') }}">
+                    <span class="brand-mark" aria-hidden="true"><i data-lucide="sprout"></i></span>
+                    <span>Skill<span class="brand-accent">Spring</span></span>
+                </a>
+                <p>Learn skills. Build projects. Track your growth.</p>
+            </div>
+            <div>
+                <h2>Explore</h2>
+                <a class="footer-link-muted" href="{{ url_for('main.skills') }}">Skills</a>
+                <a class="footer-link-muted" href="{{ url_for('main.roadmaps') }}">Roadmaps</a>
+                <a class="footer-link-muted" href="{{ url_for('main.projects') }}">Projects</a>
+            </div>
+            <div>
+                <h2>About</h2>
+                <a class="footer-link-muted" href="{{ url_for('main.about') }}">About SkillSpring</a>
+                <a class="footer-link-muted" href="{{ url_for('main.contact') }}">Contact</a>
+                <a class="footer-link-muted" href="{{ url_for('main.privacy') }}">Privacy policy</a>
+                <a class="footer-link-muted" href="{{ url_for('main.terms') }}">Terms</a>
+            </div>
+            <div class="footer-note">
+                <p>Thoughtful learning for your next chapter.</p>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <span>&copy; {{ current_year }} SkillSpring</span>
+            <span>Made for curious students.</span>
+        </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

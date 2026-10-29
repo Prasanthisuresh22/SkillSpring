@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Study Materials | SkillSpring{% endblock %}
+{% block content %}
+<section class="page-section">
+  <div class="container">
+    <div class="eyebrow">Learn at your pace</div>
+    <h1>Study Materials</h1>
+    <p class="page-lead">Beginner-friendly notes, examples, practice questions, and revision summaries for your next study session.</p>
+    <form class="filter-form" method="get">
+      <input name="q" value="{{ query }}" placeholder="Search topics or keywords..." aria-label="Search study materials">
+      <select name="subject" aria-label="Filter by subject"><option value="">All subjects</option>{% for item in subjects %}<option value="{{ item[0] }}" {% if subject == item[0] %}selected{% endif %}>{{ item[0] }}</option>{% endfor %}</select>
+      <select name="difficulty" aria-label="Filter by difficulty"><option value="">All levels</option><option value="Beginner" {% if difficulty == "Beginner" %}selected{% endif %}>Beginner</option><option value="Intermediate" {% if difficulty == "Intermediate" %}selected{% endif %}>Intermediate</option></select>
+      <button class="button button-primary" type="submit">Find notes</button>
+    </form>
+    <div class="material-grid">
+      {% for material in materials %}
+      <article class="material-card">
+        <div class="material-card-top"><span class="tag">{{ material.subject }}</span>{% if material.id in completed_ids %}<span class="tag tag-success">Completed</span>{% endif %}</div>
+        <h2>{{ material.title }}</h2><p>{{ material.summary }}</p><small>{{ material.difficulty }} · Notes and practice included</small>
+        <a class="text-link" href="{{ url_for('main.study_material_detail', material_id=material.id) }}">Read notes <i data-lucide="arrow-right"></i></a>
+      </article>
+      {% else %}<div class="empty-state"><i data-lucide="search-x"></i><h3>No matching materials</h3><p>Try a different keyword or subject.</p></div>{% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

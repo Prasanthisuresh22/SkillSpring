@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Page not found | SkillSpring{% endblock %}
+{% block content %}<section class="error-page"><div class="container error-content"><span class="error-code">404</span><h1>This path is still being mapped.</h1><p>We couldn’t find the page you were looking for, but there’s plenty more to explore.</p><a class="button button-primary" href="{{ url_for('main.index') }}">Back to home <i data-lucide="arrow-left"></i></a></div></section>{% endblock %}

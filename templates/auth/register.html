@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Create account | SkillSpring{% endblock %}
+{% block content %}
+<section class="auth-page">
+    <div class="auth-card">
+        <div class="eyebrow">Start your journey</div>
+        <h1>Make room to grow.</h1>
+        <p class="auth-intro">Create your free account and take the next step with a clear plan.</p>
+        <form method="post" novalidate>
+            {{ form.hidden_tag() }}
+            {% for field, autocomplete in [(form.full_name, "name"), (form.email, "email"), (form.password, "new-password"), (form.confirm_password, "new-password")] %}
+                <div class="form-field">
+                    {{ field.label }}
+                    {{ field(class="form-control", autocomplete=autocomplete) }}
+                    {% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+                </div>
+            {% endfor %}
+            {{ form.submit(class="button button-primary button-large form-submit") }}
+        </form>
+        <p class="auth-switch">Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a></p>
+    </div>
+</section>
+{% endblock %}

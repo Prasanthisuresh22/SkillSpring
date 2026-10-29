@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}SkillSpring | Your next skill starts here{% endblock %}
+{% block meta_description %}A clear, practical way for students to learn skills, build projects, and track their growth.{% endblock %}
+{% block content %}
+<section class="hero-section">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-dot"></span> A better way to learn</div>
+            <h1>Your next skill <span class="text-gradient">starts here.</span></h1>
+            <p class="hero-lead">Follow a clear learning path, practice with real challenges, and turn what you learn into projects you can show.</p>
+            <div class="hero-actions">
+                <a class="button button-primary button-large" href="{{ url_for('auth.register') if not current_user.is_authenticated else url_for('main.dashboard') }}">Start learning <i data-lucide="arrow-up-right"></i></a>
+                <span class="button button-secondary button-large button-disabled" aria-disabled="true">Explore roadmaps <i data-lucide="lock-keyhole"></i></span>
+            </div>
+            <div class="hero-proof">
+                <div class="avatar-stack" aria-hidden="true"><span>AM</span><span>RK</span><span>JP</span><span>+</span></div>
+                <p><strong>A space to grow</strong><br><span>Built for students who are going places.</span></p>
+            </div>
+        </div>
+        <div class="preview-wrap" aria-label="Sample SkillSpring learning dashboard preview">
+            <div class="preview-glow"></div>
+            <div class="dashboard-preview">
+                <div class="preview-topbar"><span class="preview-logo"><i data-lucide="sprout"></i> SkillSpring</span><span class="preview-user">Sample preview <i data-lucide="more-horizontal"></i></span></div>
+                <div class="preview-body">
+                    <div class="preview-greeting"><span>Good morning, Alex</span><strong>Keep the momentum going.</strong></div>
+                    <div class="preview-metrics"><div><small>Current focus</small><strong>Python basics</strong></div><div><small>Weekly rhythm</small><strong>3 sessions</strong></div></div>
+                    <div class="preview-roadmap">
+                        <div class="preview-card-heading"><span>Learning roadmap</span><small>Sample</small></div>
+                        <div class="roadmap-item is-done"><span class="check-icon"><i data-lucide="check"></i></span><span>Variables &amp; data types</span><small>Done</small></div>
+                        <div class="roadmap-item is-active"><span class="check-icon"><i data-lucide="play"></i></span><span>Conditions &amp; loops</span><small>Next</small></div>
+                        <div class="roadmap-item"><span class="check-icon"></span><span>Build a number game</span><small>Later</small></div>
+                    </div>
+                    <div class="preview-bottom"><div class="mini-progress"><div class="preview-card-heading"><span>Roadmap progress</span><strong>42%</strong></div><div class="progress-track"><span style="width: 42%"></span></div><small>Keep going — one lesson at a time.</small></div><div class="mini-project"><i data-lucide="folder-kanban"></i><div><small>Next project</small><strong>Number guessing game</strong></div></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="logo-strip" aria-label="Learning approach">
+    <div class="container logo-strip-inner"><span>LEARN WITH INTENTION</span><i data-lucide="arrow-right"></i><span>PRACTICE WITH PURPOSE</span><i data-lucide="arrow-right"></i><span>BUILD WITH CONFIDENCE</span></div>
+</section>
+
+<section class="section section-paths">
+    <div class="container">
+        <div class="section-heading heading-row"><div><div class="eyebrow">Find your direction</div><h2>Start with a path<br><em>that feels like you.</em></h2></div><p>Practical roadmaps, made easier to follow. Pick an interest and we’ll help you find your next step.</p></div>
+        <div class="path-grid">
+            {% for path in featured_paths %}
+            <article class="path-card accent-{{ path.accent }}">
+                <div class="path-icon"><i data-lucide="{{ path.icon }}"></i></div><div class="card-arrow"><i data-lucide="arrow-up-right"></i></div>
+                <h3>{{ path.title }}</h3><p>{{ path.description }}</p>
+                <div class="card-meta"><span><i data-lucide="signal"></i> {{ path.difficulty }}</span><span><i data-lucide="clock-3"></i> {{ path.duration }}</span></div>
+                <span class="text-link">View path <i data-lucide="arrow-right"></i></span>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section-how">
+    <div class="container">
+        <div class="section-heading centered"><div class="eyebrow">Simple by design</div><h2>Progress, <em>not pressure.</em></h2><p>Everything you need to move from “I should learn that” to “I built this.”</p></div>
+        <div class="steps-grid">
+            {% for number, icon, title, copy in [(1, 'compass', 'Choose a skill', 'Start with what interests you. Our paths make it easy to see where you’re heading.'), (2, 'route', 'Follow your roadmap', 'Move through focused lessons and challenges that build on each other.'), (3, 'hammer', 'Build practical projects', 'Turn your learning into proof of what you can do — one project at a time.')] %}
+            <article class="step-card"><span class="step-number">0{{ number }}</span><div class="step-icon"><i data-lucide="{{ icon }}"></i></div><h3>{{ title }}</h3><p>{{ copy }}</p></article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section-projects">
+    <div class="container">
+        <div class="section-heading heading-row"><div><div class="eyebrow">Make it tangible</div><h2>Learn by <em>building.</em></h2></div><p>Small, guided projects help you turn new concepts into work you’re proud to share.</p></div>
+        <div class="project-grid">
+            {% for title, description, stack in projects %}
+            <article class="project-card"><div class="project-visual project-visual-{{ loop.index }}"><i data-lucide="{{ ['wallet-cards', 'layout-template', 'library-big'][loop.index0] }}"></i><span>EXAMPLE PROJECT</span></div><div class="project-info"><span class="tag">{{ stack }}</span><h3>{{ title }}</h3><p>{{ description }}</p><span class="text-link">View project guide <i data-lucide="arrow-right"></i></span></div></article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section benefits-section">
+    <div class="container benefits-grid">
+        <div class="benefits-copy"><div class="eyebrow">Why SkillSpring</div><h2>Build a learning habit that <em>lasts.</em></h2><p>You don’t need more tabs open. You need a clear next step, useful practice, and a place to see how far you’ve come.</p><a class="text-link text-link-dark" href="{{ url_for('auth.register') if not current_user.is_authenticated else url_for('main.dashboard') }}">Begin your journey <i data-lucide="arrow-up-right"></i></a></div>
+        <div class="benefit-list">
+            {% for icon, title, copy in [('list-checks', 'Learn in a clear order', 'No more guessing what to study next. Each roadmap gives you a practical sequence.'), ('repeat-2', 'Practice consistently', 'Short, focused challenges help new ideas stick without overwhelming your schedule.'), ('briefcase-business', 'Build a project portfolio', 'Create work that shows your thinking, not just a list of courses you completed.'), ('chart-no-axes-combined', 'Understand your progress', 'See your momentum clearly and celebrate the steps that move you forward.')] %}
+            <div class="benefit-item"><div class="benefit-icon"><i data-lucide="{{ icon }}"></i></div><div><h3>{{ title }}</h3><p>{{ copy }}</p></div></div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="final-cta"><div class="container final-cta-inner"><div><div class="eyebrow eyebrow-light">Your next chapter is waiting</div><h2>Start small.<br><em>Go further.</em></h2></div><a class="button button-light button-large" href="{{ url_for('auth.register') if not current_user.is_authenticated else url_for('main.dashboard') }}">Start learning <i data-lucide="arrow-up-right"></i></a></div></section>
+{% endblock %}
